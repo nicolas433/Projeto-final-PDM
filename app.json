@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "atividades",
+    "slug": "atividades",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
