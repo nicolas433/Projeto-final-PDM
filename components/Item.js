@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const Item = ({ atividade }) => (
-    <View style={styles.item}>
+    <View key={atividade._id} style={styles.item}>
         <Text style={styles.title}>{atividade.titulo}</Text>
         <Text style={styles.paragraph}>{atividade.descricao}</Text>
         <Text style={styles.paragraph}>{atividade.tarefa}</Text>
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         paddingBottom: 20,
-        marginVertical: 8,
+        marginBottom: 30,
         marginHorizontal: 16,
     },
     title: {

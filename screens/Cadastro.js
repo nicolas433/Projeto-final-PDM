@@ -19,7 +19,10 @@ const Cadastro = ({ navigation }) => {
                 "tarefa": tarefa,
                 "data": data,
             });
-            navigation.navigate("Lista");
+
+            if (navigation.canGoBack()) {
+                navigation.goBack();
+            }
         } catch (error) {
             console.log(error);
         }
@@ -53,7 +56,7 @@ const Cadastro = ({ navigation }) => {
             />
             <Button
                 onPress={handleCadastro}
-                title="Nova Atividade"
+                title="Cadastrar"
                 color="#841584"
                 style={styles.confirmButton}
             />
