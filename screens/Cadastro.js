@@ -1,15 +1,29 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TextInput, Button } from "react-native";
-import DatePicker from 'react-native-date-picker'
+import axios from 'axios';
 
-const Cadastro = () => {
+const baseUrl = 'https://crudcrud.com/api/42c14c674eaf4554b49adfed73b25dea/';
+
+const Cadastro = ({ navigation }) => {
     const [titulo, onChangeTitulo] = React.useState('');
     const [descricao, onChangeDescricao] = React.useState('');
     const [tarefa, onChangeTarefa] = React.useState('');
-    const [date, onChangeDate] = React.useState(new Date())
+    const [data, onChangeData] = React.useState('')
 
-
-    // (título, descrição e data da tarefa)
+    const handleCadastro = async () => {
+        try {
+            const url = `${baseUrl}atividade`;
+            const response = await axios.post(url, {
+                "titulo": titulo,
+                "descricao": descricao,
+                "tarefa": tarefa,
+                "data": data,
+            });
+            navigation.navigate("Lista");
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <SafeAreaView>
@@ -27,8 +41,8 @@ const Cadastro = () => {
             />
             <TextInput
                 style={styles.input}
-                onChangeText={onChangeDate}
-                value={date}
+                onChangeText={onChangeData}
+                value={data}
                 placeholder="Data"
             />
             <TextInput
@@ -36,6 +50,12 @@ const Cadastro = () => {
                 onChangeText={onChangeTarefa}
                 value={tarefa}
                 placeholder="Tarefa"
+            />
+            <Button
+                onPress={handleCadastro}
+                title="Nova Atividade"
+                color="#841584"
+                style={styles.confirmButton}
             />
         </SafeAreaView>
     );
@@ -48,7 +68,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
     },
-    date: {
+    data: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+    },
+    confirmButton: {
         height: 40,
         margin: 12,
         borderWidth: 1,

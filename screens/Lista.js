@@ -1,32 +1,28 @@
-import React from 'react';
-import { View, FlatList, StyleSheet, Text, Button } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useEffect } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Button } from 'react-native';
+import axios from 'axios';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Secofdghfghnd Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-];
+const baseUrl = 'https://crudcrud.com/api/42c14c674eaf4554b49adfed73b25dea/';
 
-const Item = ({ title }) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
+import Item from '../components/Item';
 
-const App = ({ navigation }) => {
-  const renderItem = ({ item }) => (
-    <Item title={item.title} />
-  );
+const Lista = ({ navigation }) => {
+  const [lista, setLista] = React.useState([]);
+
+  const getAtividades = async () => {
+    try {
+      const url = `${baseUrl}atividade`;
+      const response = await axios.get(url);
+      setLista(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAtividades();
+    console.log('chegou aqui')
+  }, [])
 
   const handleCadastroNavigation = () => {
     navigation.navigate("Cadastro");
@@ -34,19 +30,20 @@ const App = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        style={styles.list}
-      />
       <Button
         onPress={handleCadastroNavigation}
         title="Nova Atividade"
         color="#841584"
-        style={styles.button}
-        accessibilityLabel="Learn more about this purple button"
+        style={styles.newCadastroButton}
       />
+      <ScrollView >
+        {
+          lista.map((item) => (
+            <Item atividade={item} />
+          ))
+        }
+      </ScrollView>
+
     </ SafeAreaView>
   );
 }
@@ -64,10 +61,10 @@ const styles = StyleSheet.create({
   list: {
     height: 700,
   },
-  button: {
+  newCadastroButton: {
     height: 50,
     width: 50,
   }
 });
 
-export default App;
+export default Lista;
