@@ -1,8 +1,9 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TextInput, Button } from "react-native";
+import DatePicker from 'react-native-datepicker';
 import axios from 'axios';
 
-const baseUrl = 'https://crudcrud.com/api/42c14c674eaf4554b49adfed73b25dea/';
+const baseUrl = 'http://b9db-164-163-158-46.ngrok.io/';
 
 const Cadastro = ({ navigation }) => {
     const [titulo, onChangeTitulo] = React.useState('');
@@ -12,7 +13,7 @@ const Cadastro = ({ navigation }) => {
 
     const handleCadastro = async () => {
         try {
-            const url = `${baseUrl}atividade`;
+            const url = `${baseUrl}api/create/atividade`;
             const response = await axios.post(url, {
                 "titulo": titulo,
                 "descricao": descricao,
@@ -42,11 +43,13 @@ const Cadastro = ({ navigation }) => {
                 value={descricao}
                 placeholder="Descrição"
             />
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeData}
-                value={data}
-                placeholder="Data"
+            <DatePicker
+            style={ styles.data }
+            date={data}
+            format="DD-MM-YYYY HH:mm:SS"
+            minDate="29-03-2022"
+            maxDate="31-08-2099"
+            onDateChange={onChangeData}
             />
             <TextInput
                 style={styles.input}
@@ -74,8 +77,7 @@ const styles = StyleSheet.create({
     data: {
         height: 40,
         margin: 12,
-        borderWidth: 1,
-        padding: 10,
+        width: 370,
     },
     confirmButton: {
         height: 40,

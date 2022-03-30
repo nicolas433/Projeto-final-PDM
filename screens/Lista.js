@@ -3,7 +3,7 @@ import { Text, View, SafeAreaView, ScrollView, StyleSheet, Button } from 'react-
 import axios from 'axios';
 import { useIsFocused } from "@react-navigation/native";
 
-const baseUrl = 'https://crudcrud.com/api/42c14c674eaf4554b49adfed73b25dea/';
+const baseUrl = 'http://b9db-164-163-158-46.ngrok.io/';
 
 import Item from '../components/Item';
 
@@ -14,10 +14,9 @@ const Lista = ({ navigation }) => {
   const getAtividades = useCallback(
     async () => {
       try {
-        console.log('chegou aqui')
-        const url = `${baseUrl}atividade`;
+        const url = `${baseUrl}api/list/atividade`;
         const response = await axios.get(url);
-        setLista(response.data);
+        setLista(response.data.response);
       } catch (error) {
         console.log(error);
       }
@@ -34,9 +33,20 @@ const Lista = ({ navigation }) => {
     navigation.navigate("Cadastro");
   }
 
+  const handleVideoNavigation = () => {
+    navigation.navigate("Video");
+  }
+
   return (
     <>
       <SafeAreaView>
+        <Button
+          onPress={handleVideoNavigation}
+          title="Mostrar Vídeo"
+          color="#841584"
+          style={styles.showVideoButton}
+        />
+
         <Button
           onPress={handleCadastroNavigation}
           title="Nova Atividade"
@@ -61,12 +71,6 @@ const Lista = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  item: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
   title: {
     fontSize: 32,
   },
@@ -74,6 +78,11 @@ const styles = StyleSheet.create({
     height: 700,
   },
   newCadastroButton: {
+    height: 50,
+    width: 50,
+    marginBottom: 20,
+  },
+  showVideoButton: {
     height: 50,
     width: 50,
   },
